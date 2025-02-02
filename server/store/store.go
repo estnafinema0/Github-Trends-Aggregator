@@ -7,15 +7,20 @@ import (
 	"github.com/estnafinema0/Github-Trends-Aggregator/server/models"
 )
 
+// Store represents a structure for storing repositories
 type Store struct {
 	sync.RWMutex
 	repos map[string]models.Repository
 }
 
+// NewStore creates a new Store instance
 func NewStore() *Store {
-	return &Store{}
+	return &Store{
+		repos: make(map[string]models.Repository),
+	}
 }
 
+// UpdateRepos updates repositories
 func (s *Store) UpdateRepos(newRepos []models.Repository) {
 	s.Lock()
 	defer s.Unlock()
@@ -28,14 +33,14 @@ func (s *Store) UpdateRepos(newRepos []models.Repository) {
 	}
 }
 
-// GetRepos retrieves repositories based on the specified programming language
+// GetRepos retrieves repositories by language
 func (s *Store) GetRepos(language string) []models.Repository {
 	s.RLock()
 	defer s.RUnlock()
 
 	var repos []models.Repository
 
-	// Filter repos based on language
+	// Filter repositories by language
 	for _, repo := range s.repos {
 		if repo.Language == language {
 			repos = append(repos, repo)
