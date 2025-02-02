@@ -30,7 +30,7 @@ func main() {
 	go scheduler.StartScheduler(store, hub, l)
 
 	sm := mux.NewRouter()
-	sm.HandleFunc("/trends", api.GetTrendsHandler(store))
+	sm.HandleFunc("/trends", api.GetTrendsHandler(store)).Methods("GET")
 	sm.HandleFunc("/ws", ws.ServeWsHandler(hub, l))
 
 	port := os.Getenv("PORT")
@@ -45,7 +45,8 @@ func main() {
 		ReadTimeout:  15 * time.Second,
 	}
 
-	l.Println("Starting server on port", port)
+	l.Printf("Starting server on: %s\n", srv.Addr)
+	log.Fatal(srv.ListenAndServe())
 
 	sigChan := make(chan os.Signal, 1)
 	signal.Notify(sigChan, os.Interrupt, syscall.SIGTERM)
