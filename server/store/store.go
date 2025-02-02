@@ -28,18 +28,19 @@ func (s *Store) UpdateRepos(newRepos []models.Repository) {
 	}
 }
 
-// GetRepos returns repositories by language
+// GetRepos retrieves repositories based on the specified programming language
 func (s *Store) GetRepos(language string) []models.Repository {
 	s.RLock()
 	defer s.RUnlock()
 
-	result := []models.Repository{}
+	var repos []models.Repository
 
+	// Filter repos based on language
 	for _, repo := range s.repos {
 		if repo.Language == language {
-			result = append(result, repo)
+			repos = append(repos, repo)
 		}
 	}
 
-	return result
+	return repos
 }

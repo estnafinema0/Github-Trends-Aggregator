@@ -8,10 +8,10 @@ import (
 )
 
 // GetTrendsHandler returns handler for GET /trends
-func GetTrendsHandler() http.HandlerFunc {
+func GetTrendsHandler(s *store.Store) http.HandlerFunc {
 	return func(rw http.ResponseWriter, r *http.Request) {
 		language := r.URL.Query().Get("language")
-		repos := store.GetRepos(language)
+		repos := s.GetRepos(language)
 		rw.Header().Set("Content-Type", "application/json")
 
 		json.NewEncoder(rw).Encode(repos)

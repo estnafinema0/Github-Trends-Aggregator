@@ -93,6 +93,6 @@ func FetchTrendingRepos(l *log.Logger) ([]models.Repository, error) {
 		// l.Printf("Added repository: %s\n", repo.ID)
 	})
 
-	l.Println("Trending repos fetched: %d", len(repos))
+	l.Printf("Trending repos fetched: %d\n", len(repos))
 	return repos, nil
 }
