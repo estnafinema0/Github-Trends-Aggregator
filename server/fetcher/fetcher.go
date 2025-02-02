@@ -35,14 +35,14 @@ func FetchTrendingRepos(l *log.Logger) ([]models.Repository, error) {
 		titleSel := s.Find("h2 > a")
 		href, exists := titleSel.Attr("href")
 		if !exists {
-			l.Println("Failed to get href for repository\n")
+			l.Println("Failed to get href for repository")
 			return
 		}
 		titleText := strings.TrimSpace(titleSel.Text())
 		// Split string by "/" to get author and repository name
 		parts := strings.Split(titleText, "/")
 		if len(parts) < 2 {
-			l.Println("Failed to get author and repository name\n")
+			l.Println("Failed to get author and repository name")
 			return
 		}
 		author := strings.TrimSpace(parts[0])
@@ -93,6 +93,6 @@ func FetchTrendingRepos(l *log.Logger) ([]models.Repository, error) {
 		// l.Printf("Added repository: %s\n", repo.ID)
 	})
 
-	l.Println("Trending repos fetched: %d\n", len(repos))
+	l.Println("Trending repos fetched: %d", len(repos))
 	return repos, nil
 }
