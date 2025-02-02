@@ -10,6 +10,7 @@ import (
 	"time"
 
 	"github.com/estnafinema0/Github-Trends-Aggregator/server/api"
+	"github.com/estnafinema0/Github-Trends-Aggregator/server/scheduler"
 	"github.com/estnafinema0/Github-Trends-Aggregator/server/store"
 	"github.com/estnafinema0/Github-Trends-Aggregator/server/ws"
 	"github.com/gorilla/mux"
@@ -25,6 +26,8 @@ func main() {
 	// Initialize WebSocket hub and run it in a goroutine
 	hub := ws.NewHub()
 	go hub.Run(l)
+
+	go scheduler.StartScheduler(store, hub, l)
 
 	sm := mux.NewRouter()
 	sm.HandleFunc("/trends", api.GetTrendsHandler(store))
