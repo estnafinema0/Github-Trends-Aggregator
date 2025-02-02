@@ -9,15 +9,21 @@ import (
 	"syscall"
 	"time"
 
+	"github.com/estnafinema0/Github-Trends-Aggregator/server/api"
+	"github.com/estnafinema0/Github-Trends-Aggregator/server/store"
 	"github.com/gorilla/mux"
 )
 
 func main() {
+	// Initialize In-memory store
+	store := store.NewStore()
+
+	// Initialize logger
 	l := log.New(os.Stdout, "server-api", log.LstdFlags)
 
 	sm := mux.NewRouter()
-	sm.HandleFunc("/trends", nil).Methods("GET")
-	sm.HandleFunc("/ws", nil).Methods("GET")
+	sm.HandleFunc("/trends", api.GetTrendsHandler(store))
+	sm.HandleFunc("/ws", nil)
 
 	port := os.Getenv("PORT")
 	if port == "" {
