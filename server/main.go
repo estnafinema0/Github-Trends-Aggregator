@@ -21,7 +21,7 @@ func main() {
 	store := store.NewStore()
 
 	// Initialize logger
-	l := log.New(os.Stdout, "server-api", log.LstdFlags)
+	l := log.New(os.Stdout, "server-api: ", log.LstdFlags)
 
 	// Initialize WebSocket hub and run it in a goroutine
 	hub := ws.NewHub()
@@ -44,6 +44,8 @@ func main() {
 		WriteTimeout: 15 * time.Second,
 		ReadTimeout:  15 * time.Second,
 	}
+
+	l.Println("Starting server on port", port)
 
 	sigChan := make(chan os.Signal, 1)
 	signal.Notify(sigChan, os.Interrupt, syscall.SIGTERM)
