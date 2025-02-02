@@ -1,6 +1,10 @@
 package store
 
-import "github.com/estnafinema0/Github-Trends-Aggregator/server/models"
+import (
+	"time"
+
+	"github.com/estnafinema0/Github-Trends-Aggregator/server/models"
+)
 
 type Store struct {
 	repos map[string]models.Repository
@@ -8,6 +12,15 @@ type Store struct {
 
 func NewStore() *Store {
 	return &Store{}
+}
+
+func (s *Store) UpdateRepos(newRepos []models.Repository) {
+	for _, repo := range newRepos {
+		repo.UpdatedAt = time.Now()
+		repo.InterestScore = float64(repo.Stars + repo.Forks)
+
+		s.repos[repo.ID] = repo
+	}
 }
 
 // GetRepos returns repositories by language
