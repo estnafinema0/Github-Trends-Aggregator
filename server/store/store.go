@@ -93,3 +93,15 @@ func (s *Store) GetRepoByID(id string) (models.Repository, bool) {
 	return repo, ok
 
 }
+
+// GetAllRepos returns all repositories
+func (s *Store) GetAllRepos() []models.Repository {
+	s.RLock()
+	defer s.RUnlock()
+
+	var repos []models.Repository
+	for _, repo := range s.repos {
+		repos = append(repos, repo)
+	}
+	return repos
+}
