@@ -4,6 +4,17 @@
 
 ---
 
+- [GitHub Trends Aggregator](#github-trends-aggregator)
+  - [Overview](#overview)
+  - [Features](#features)
+  - [Architecture](#architecture)
+  - [Dynamic interface with filtering and sorting.](#dynamic-interface-with-filtering-and-sorting)
+  - [Endpoints](#endpoints)
+  - [Installation](#installation)
+    - [Running the Server](#running-the-server)
+    - [Interactions in the terminal](#interactions-in-the-terminal)
+  - [Technologies Used](#technologies-used)
+
 ## Overview
 
 GitHub Trends Aggregator periodically scrapes the [GitHub Trending page](https://github.com/trending) using a resilient HTML parser and processes repository data to extract relevant metrics such as stars, forks, and a custom "interest score". The data is stored in an in-memory store and is made accessible via a RESTful API and WebSocket for live updates. An interactive client-side interface built with HTML and CSS presents the data in an *user-friendly format*, complete with filtering, sorting.
