@@ -30,11 +30,14 @@ func main() {
 	go scheduler.StartScheduler(store, hub, l)
 
 	sm := mux.NewRouter()
-
+	
 	sm.HandleFunc("/trends", api.GetTrendsHandler(store)).Methods("GET")
 	sm.HandleFunc("/trends/{id}", api.GetRepoHandler(store)).Methods("GET")
 	sm.HandleFunc("/stats", api.GetStatsHandler(store)).Methods("GET")
 	sm.HandleFunc("/ws", ws.ServeWsHandler(hub, l))
+	sm.HandleFunc("/", api.GetIndexHandler(store)).Methods("GET")
+		
+	sm.PathPrefix("/").Handler(http.FileServer(http.Dir("./static/")))
 
 	port := os.Getenv("PORT")
 	if port == "" {

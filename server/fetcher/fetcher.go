@@ -14,19 +14,19 @@ import (
 const trendingURL = "https://github.com/trending"
 
 // FetchTrendingRepos fetches trending repositories from GitHub Trending, parses HTML and returns list of repositories
-func FetchTrendingRepos(l *log.Logger, id int) ([]models.Repository, int, error) {
+func FetchTrendingRepos(l *log.Logger) ([]models.Repository, error) {
 	client := &http.Client{Timeout: 10 * time.Second}
 	resp, err := client.Get(trendingURL)
 	if err != nil {
 		log.Printf("Error fetching data: %v\n", err)
-		return nil, id, err
+		return nil, err
 	}
 	defer resp.Body.Close()
 
 	doc, err := goquery.NewDocumentFromReader(resp.Body)
 	if err != nil {
 		log.Printf("Error parsing HTML: %v\n", err)
-		return nil, id, err
+		return nil, err
 	}
 
 	var repos []models.Repository
@@ -79,7 +79,7 @@ func FetchTrendingRepos(l *log.Logger, id int) ([]models.Repository, int, error)
 		currentPeriodStars, _ := strconv.Atoi(periodStarsStr)
 		// l.Printf("Stars for current period: %d\n", currentPeriodStars)
 		repo := models.Repository{
-			ID:                 strconv.Itoa(id), // author + "/" + name
+			ID:                 author + "/" + name,
 			Author:             author,
 			Name:               name,
 			URL:                url,
@@ -91,9 +91,8 @@ func FetchTrendingRepos(l *log.Logger, id int) ([]models.Repository, int, error)
 		}
 		repos = append(repos, repo)
 		// l.Printf("Added repository: %s\n", repo.ID)
-		id += 1
 	})
 
 	l.Printf("Trending repos fetched: %d\n", len(repos))
-	return repos, id, nil
+	return repos, nil
 }

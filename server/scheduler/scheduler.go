@@ -15,14 +15,13 @@ import (
 func StartScheduler(store *store.Store, hub *ws.Hub, l *log.Logger) {
 	ticker := time.NewTicker(config.FetchInterval)
 	defer ticker.Stop()
-	i := 1
 
 	// First run immediately
 	for {
 		l.Println("Starting trend fetching...")
 		var repos []models.Repository
 		var err error
-		repos, i, err = fetcher.FetchTrendingRepos(l, i)
+		repos, err = fetcher.FetchTrendingRepos(l)
 		if err != nil {
 			l.Printf("Error fetching trends: %v\n", err)
 		} else {
