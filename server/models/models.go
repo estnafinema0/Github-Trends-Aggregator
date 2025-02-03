@@ -5,6 +5,7 @@ import "time"
 // Repository represents repository data
 type Repository struct {
 	ID                 string    `json:"id"`
+	SecondaryID        int       `json:"secondary"`
 	Author             string    `json:"author"`
 	Name               string    `json:"name"`
 	URL                string    `json:"url"`

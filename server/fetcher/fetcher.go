@@ -80,6 +80,7 @@ func FetchTrendingRepos(l *log.Logger) ([]models.Repository, error) {
 		// l.Printf("Stars for current period: %d\n", currentPeriodStars)
 		repo := models.Repository{
 			ID:                 author + "/" + name,
+			SecondaryID:        i + 1,
 			Author:             author,
 			Name:               name,
 			URL:                url,

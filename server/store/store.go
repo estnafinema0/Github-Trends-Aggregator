@@ -1,6 +1,7 @@
 package store
 
 import (
+	"fmt"
 	"sort"
 	"sync"
 	"time"
@@ -12,12 +13,16 @@ import (
 type Store struct {
 	sync.RWMutex
 	repos map[string]models.Repository
+	invRepos map[int]models.Repository
+	lastID int
 }
 
 // NewStore creates a new Store instance
 func NewStore() *Store {
 	return &Store{
 		repos: make(map[string]models.Repository),
+		invRepos: make(map[int]models.Repository),
+		lastID: 1,
 	}
 }
 
@@ -25,12 +30,17 @@ func NewStore() *Store {
 func (s *Store) UpdateRepos(newRepos []models.Repository) {
 	s.Lock()
 	defer s.Unlock()
+	for k := range s.invRepos {
+		delete(s.invRepos, k)
+	}
 
 	for _, repo := range newRepos {
+		fmt.Println(repo)
 		repo.UpdatedAt = time.Now()
 		repo.InterestScore = float64(repo.Stars + repo.Forks)
 
 		s.repos[repo.ID] = repo
+		s.invRepos[repo.SecondaryID] = repo
 	}
 }
 
@@ -91,7 +101,13 @@ func (s *Store) GetRepoByID(id string) (models.Repository, bool) {
 	defer s.RLock()
 	repo, ok := s.repos[id]
 	return repo, ok
+}
 
+func (s *Store) GetRepoBySecondaryID(id int) (models.Repository, bool) {
+	s.RLock()
+	defer s.RLock()
+	repo, ok := s.invRepos[id]
+	return repo, ok
 }
 
 // GetAllRepos returns all repositories
