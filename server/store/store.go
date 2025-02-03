@@ -1,6 +1,7 @@
 package store
 
 import (
+	"sort"
 	"sync"
 	"time"
 
@@ -48,4 +49,37 @@ func (s *Store) GetRepos(language string) []models.Repository {
 	}
 
 	return repos
+}
+
+func (s *Store) GetReposFiltered(language string, sortBy string) []models.Repository {
+	s.RLock()
+	defer s.RUnlock()
+
+	result := []models.Repository{}
+
+	for _, repo := range s.repos {
+		if language == "" || repo.Language == language {
+			result = append(result, repo)
+		}
+	}
+
+	switch sortBy {
+	case "stars":
+		sort.Slice(result, func(i, j int) bool {
+			return result[i].CurrentPeriodStars > result[j].CurrentPeriodStars
+		})
+	case "forks":
+		sort.Slice(result, func(i, j int) bool {
+			return result[i].Forks > result[j].Forks
+		})
+	case "current_period_stars":
+		sort.Slice(result, func(i, j int) bool {
+			return result[i].CurrentPeriodStars > result[j].CurrentPeriodStars
+		})
+	case "interest_score":
+		sort.Slice(result, func(i, j int) bool {
+			return result[i].InterestScore > result[j].InterestScore
+		})
+	}
+	return result
 }
