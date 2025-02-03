@@ -48,7 +48,7 @@ func main() {
 		ReadTimeout:  15 * time.Second,
 	}
 
-	l.Printf("Starting server on: %s\n", srv.Addr)
+	l.Printf("Starting server on %s\n", srv.Addr)
 	log.Fatal(srv.ListenAndServe())
 
 	sigChan := make(chan os.Signal, 1)
