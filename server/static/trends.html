@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Trends</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <script>
+        document.addEventListener("DOMContentLoaded", (e) => {
+            document.getElementById('inner').setAttribute(
+                'style',
+                `width: ${document.getElementById('outer').clientWidth}px;height:${document.getElementById('outer').clientHeight}px;position: absolute;`
+            )
+        })
+        function sort_by() {
+            const curUrl = window.location.href
+            const sortorder = /sortorder=[a-z_]+/
+            const tmpUrl = window.location.href.replace(sortorder, "")
+            const url = tmpUrl + '&sortorder=' + document.getElementById('sortorder').value
+            let url_ = url.replace('&&', '&').replace('?&', '?')
+            if (url_.search("\\?") == -1) {
+                url_ = url_.replace('&', '?')
+            }
+            window.location.href = url_
+        }
+    </script>
+</head>
+<body class="dark-theme montserrat-font">
+    <!-- <img style="display: block;" src="face.png" alt="Лицо"> -->
+    <header class="header-box">
+        <nav class="main-pages">
+            <li><a href="/" id="main-nav">Main</a></li>
+            <li><a href="/trends" id="trends-nav">Trends</a></li>
+            <li><a href="/stat-page" id="stat-nav">Statistics</a></li>
+            <li><a href="/subscribe-page" id="subscribe-nav">Subscribe</a></li>
+        </nav>
+    </header>
+
+    <div class="side__menu__out">
+        <div class="side__menu__in">
+            <form action="javascript:sort_by()">
+                <div class="sorting"><label for="sortorder"></label></div>
+                <div><input list="sortorders" name="sortorder" id="sortorder" class="input-a"></div>
+                <datalist id="sortorders">
+                    <option value="stars"></option>
+                    <option value="forks"></option>
+                    <option value="current_period_stars"></option>
+                    <option value="interest_score"></option>
+                </datalist>
+                <input type="submit" value="Choose sorting" class="input-a">
+            </form>
+        </div>
+    </div>
+
+    <main class="container" id="outer">
+        <div class="back" id="inner"></div>
+        <div class="into">
+            {{range .Repos}}
+            <div class="repo">
+                <h3 class="author">{{.Name}}</h3>
+                <div class="field"><p>{{.Author}}</p></div>
+                <div class="field"><p>{{.URL}}</p></div>
+                <div class="field"><p>{{.Description}}</p></div>
+                <div class="field"><p>{{.Language}}</p></div>
+                <div class="field"><p>{{.Stars}}</p></div>
+            </div>
+            {{end}}
+        </div>
+    </main>
+</body>
+</html>

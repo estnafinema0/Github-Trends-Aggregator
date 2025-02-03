@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <script>
+        function fetch_trends() {
+            const url = "http://localhost:8080/trends?language=" + document.getElementById('language').value
+            window.location.href = url
+        }
+    </script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body class="dark-theme montserrat-font">
+    <!-- <img style="display: block;" src="face.png" alt="Лицо"> -->
+    <header class="header-box">
+        <nav class="main-pages">
+            <li><a href="/" id="main-nav">Main</a></li>
+            <li><a href="/trends" id="trends-nav">Trends</a></li>
+            <li><a href="/stat-page" id="stat-nav">Statistics</a></li>
+            <li><a href="/subscribe-page" id="subscribe-nav">Subscribe</a></li>
+        </nav>
+    </header>
+
+    <main class="container">
+        <form action="javascript:fetch_trends()" class="form">
+            <div class="header"><label class="label" for="language">Choose your favorite programming language the list:</label></div>
+            <div><input class="input" list="languages" name="language" id="language"></div>
+            <datalist id="languages">
+                {{range .Langs}}
+                    <option value="{{.Language}}"></option>
+                {{end}}
+            </datalist>
+            <input type="submit" value="Choose trending language" class="input">
+        </form>
+    </main>
+</body>
+</html>
