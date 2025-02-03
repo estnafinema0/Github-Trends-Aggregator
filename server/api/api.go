@@ -3,6 +3,7 @@ package api
 import (
 	"encoding/json"
 	"net/http"
+	"strconv"
 	"text/template"
 
 	"github.com/estnafinema0/Github-Trends-Aggregator/server/models"
@@ -13,15 +14,11 @@ import (
 // GetTrendsHandler returns handler for GET /trends
 func GetTrendsHandler(s *store.Store) http.HandlerFunc {
 	tmpl := template.Must(template.ParseFiles("static/trends.html"))
-	
+
 	return func(rw http.ResponseWriter, r *http.Request) {
 		language := r.URL.Query().Get("language")
 		sortBy := r.URL.Query().Get("sort_by")
 		repos := s.GetReposFiltered(language, sortBy)
-		mlangs := make(map[string]bool)
-		for _, v := range repos {
-			mlangs[v.Language] = true
-		}
 		type Temporary struct { Repos []models.Repository }
 		data := Temporary{repos}
 		tmpl.Execute(rw, data)
@@ -33,19 +30,19 @@ func GetTrendsHandler(s *store.Store) http.HandlerFunc {
 
 func GetIndexHandler(s *store.Store) http.HandlerFunc {
 	tmpl := template.Must(template.ParseFiles("static/index.html"))
-	
+
 	return func(rw http.ResponseWriter, r *http.Request) {
 		repos := s.GetReposFiltered("", "stars")
 		mlangs := make(map[string]bool)
 		for _, v := range repos {
 			mlangs[v.Language] = true
 		}
-		type Abeme struct { Language string }
-		var langs []Abeme
+		type TemporaryString struct { Language string }
+		var langs []TemporaryString
 		for k := range mlangs {
-			langs = append(langs, Abeme{k})
+			langs = append(langs, TemporaryString{k})
 		}
-		type Temporary struct { Langs []Abeme }
+		type Temporary struct { Langs []TemporaryString }
 		data := Temporary{langs}
 		tmpl.Execute(rw, data)
 		
@@ -58,8 +55,8 @@ func GetIndexHandler(s *store.Store) http.HandlerFunc {
 func GetRepoHandler(s *store.Store) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		vars := mux.Vars(r)
-		id := vars["id"]
-		repo, ok := s.GetRepoByID(id)
+		id, _ := strconv.Atoi(vars["id"])
+		repo, ok := s.GetRepoBySecondaryID(id)
 		if !ok {
 			http.Error(w, "Repository not found", http.StatusNotFound)
 			return

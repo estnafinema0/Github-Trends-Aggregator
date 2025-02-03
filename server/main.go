@@ -36,7 +36,7 @@ func main() {
 	sm.HandleFunc("/stats", api.GetStatsHandler(store)).Methods("GET")
 	sm.HandleFunc("/ws", ws.ServeWsHandler(hub, l))
 	sm.HandleFunc("/", api.GetIndexHandler(store)).Methods("GET")
-		
+
 	sm.PathPrefix("/").Handler(http.FileServer(http.Dir("./static/")))
 
 	port := os.Getenv("PORT")
