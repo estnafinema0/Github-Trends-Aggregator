@@ -6,6 +6,7 @@ import (
 
 	"github.com/estnafinema0/Github-Trends-Aggregator/server/config"
 	"github.com/estnafinema0/Github-Trends-Aggregator/server/fetcher"
+	"github.com/estnafinema0/Github-Trends-Aggregator/server/models"
 	"github.com/estnafinema0/Github-Trends-Aggregator/server/store"
 	"github.com/estnafinema0/Github-Trends-Aggregator/server/ws"
 )
@@ -14,11 +15,14 @@ import (
 func StartScheduler(store *store.Store, hub *ws.Hub, l *log.Logger) {
 	ticker := time.NewTicker(config.FetchInterval)
 	defer ticker.Stop()
+	i := 1
 
 	// First run immediately
 	for {
 		l.Println("Starting trend fetching...")
-		repos, err := fetcher.FetchTrendingRepos(l)
+		var repos []models.Repository
+		var err error
+		repos, i, err = fetcher.FetchTrendingRepos(l, i)
 		if err != nil {
 			l.Printf("Error fetching trends: %v\n", err)
 		} else {
