@@ -30,7 +30,10 @@ func main() {
 	go scheduler.StartScheduler(store, hub, l)
 
 	sm := mux.NewRouter()
+
 	sm.HandleFunc("/trends", api.GetTrendsHandler(store)).Methods("GET")
+	sm.HandleFunc("/trends/{id}", api.GetRepoHandler(store)).Methods("GET")
+	sm.HandleFunc("/stats", api.GetStatsHandler(store)).Methods("GET")
 	sm.HandleFunc("/ws", ws.ServeWsHandler(hub, l))
 
 	port := os.Getenv("PORT")
