@@ -16,7 +16,7 @@
         })
         function sort_by() {
             const curUrl = window.location.href
-            const sortorder = /sortorder=[a-z_]+/
+            const sortorder = /sortorder=[a-z_]*/
             const tmpUrl = window.location.href.replace(sortorder, "")
             const url = tmpUrl + '&sortorder=' + document.getElementById('sortorder').value
             let url_ = url.replace('&&', '&').replace('?&', '?')
