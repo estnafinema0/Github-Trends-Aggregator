@@ -1,7 +1,6 @@
 package store
 
 import (
-	"fmt"
 	"sort"
 	"sync"
 	"time"
@@ -12,17 +11,17 @@ import (
 // Store represents a structure for storing repositories
 type Store struct {
 	sync.RWMutex
-	repos map[string]models.Repository
+	repos    map[string]models.Repository
 	invRepos map[int]models.Repository
-	lastID int
+	lastID   int
 }
 
 // NewStore creates a new Store instance
 func NewStore() *Store {
 	return &Store{
-		repos: make(map[string]models.Repository),
+		repos:    make(map[string]models.Repository),
 		invRepos: make(map[int]models.Repository),
-		lastID: 1,
+		lastID:   1,
 	}
 }
 
@@ -35,7 +34,6 @@ func (s *Store) UpdateRepos(newRepos []models.Repository) {
 	}
 
 	for _, repo := range newRepos {
-		fmt.Println(repo)
 		repo.UpdatedAt = time.Now()
 		repo.InterestScore = float64(repo.Stars + repo.Forks)
 

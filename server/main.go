@@ -30,7 +30,7 @@ func main() {
 	go scheduler.StartScheduler(store, hub, l)
 
 	sm := mux.NewRouter()
-	
+
 	sm.HandleFunc("/trends", api.GetTrendsHandler(store)).Methods("GET")
 	sm.HandleFunc("/trends/{id:[0-9]+}", api.GetRepoHandler(store)).Methods("GET")
 	sm.HandleFunc("/stats", api.GetStatsHandler(store)).Methods("GET")
@@ -46,12 +46,12 @@ func main() {
 
 	srv := &http.Server{
 		Handler:      sm,
-		Addr:         ":" + port,
+		Addr:         ": " + port,
 		WriteTimeout: 15 * time.Second,
 		ReadTimeout:  15 * time.Second,
 	}
 
-	l.Printf("Starting server on %s\n", srv.Addr)
+	l.Printf("Starting server on port%s\n", srv.Addr)
 	log.Fatal(srv.ListenAndServe())
 
 	sigChan := make(chan os.Signal, 1)
