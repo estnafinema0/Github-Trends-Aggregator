@@ -51,6 +51,7 @@ func (s *Store) GetRepos(language string) []models.Repository {
 	return repos
 }
 
+// GetReposFiltered returns a list of repositories with filtering by language and sorting
 func (s *Store) GetReposFiltered(language string, sortBy string) []models.Repository {
 	s.RLock()
 	defer s.RUnlock()
@@ -82,4 +83,13 @@ func (s *Store) GetReposFiltered(language string, sortBy string) []models.Reposi
 		})
 	}
 	return result
+}
+
+// GetRepoByID returns a repository by its ID (e.g., "author/name")
+func (s *Store) GetRepoByID(id string) (models.Repository, bool) {
+	s.RLock()
+	defer s.RLock()
+	repo, ok := s.repos[id]
+	return repo, ok
+
 }
