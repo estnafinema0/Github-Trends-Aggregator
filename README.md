@@ -8,10 +8,12 @@
   - [Overview](#overview)
   - [Features](#features)
   - [Architecture](#architecture)
+  - [Dynamic interface with filtering and sorting.](#dynamic-interface-with-filtering-and-sorting)
   - [Endpoints](#endpoints)
   - [Installation](#installation)
     - [Running the Server](#running-the-server)
     - [Interactions in the terminal](#interactions-in-the-terminal)
+    - [Docker](#docker)
   - [Technologies Used](#technologies-used)
 
 ## Overview
@@ -130,6 +132,22 @@ wscat -c ws://localhost:8080/ws
 
 ![Main page](images/image2.png)
 
+### Docker
+
+To run the server in Docker, you need to have Docker installed on your machine.
+
+From the root directory:
+```bash
+docker image build -t my_image1 ./server
+docker container run -it -p 8080:8080 my_image1
+```
+After that, you can access the server at `http://localhost:8080`.
+
+After you're done, you can remove the container and the image:
+```bash
+docker container rm -f my_container1
+docker image rm -f my_image1
+```
 
 ## Technologies Used
 
