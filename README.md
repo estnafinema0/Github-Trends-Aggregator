@@ -8,7 +8,6 @@
   - [Overview](#overview)
   - [Features](#features)
   - [Architecture](#architecture)
-  - [Dynamic interface with filtering and sorting.](#dynamic-interface-with-filtering-and-sorting)
   - [Endpoints](#endpoints)
   - [Installation](#installation)
     - [Running the Server](#running-the-server)
