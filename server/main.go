@@ -46,12 +46,12 @@ func main() {
 
 	srv := &http.Server{
 		Handler:      sm,
-		Addr:         ": " + port,
+		Addr:         ":" + port,
 		WriteTimeout: 15 * time.Second,
 		ReadTimeout:  15 * time.Second,
 	}
 
-	l.Printf("Starting server on port%s\n", srv.Addr)
+	l.Printf("Starting server on port %s\n", srv.Addr)
 	log.Fatal(srv.ListenAndServe())
 
 	sigChan := make(chan os.Signal, 1)
