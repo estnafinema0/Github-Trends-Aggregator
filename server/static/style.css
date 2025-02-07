@@ -478,4 +478,20 @@ h3.author::before {
 .arrow {
   width: 2em;
   height: 2em;
+  -webkit-transition: filter 0.1s ease-in-out;
+  -moz-transition: filter 0.1s ease-in-out;
+  -o-transition: filter 0.1s ease-in-out;
+  transition: filter 0.1s ease-in-out;
+}
+
+.arrow-link:hover .arrow {
+  -webkit-transition: filter 0.1s ease-in-out;
+  -moz-transition: filter 0.1s ease-in-out;
+  -o-transition: filter 0.1s ease-in-out;
+  transition: filter 0.1s ease-in-out;
+  filter: invert(37%) sepia(73%) saturate(1424%) hue-rotate(232deg) brightness(98%) contrast(83%);
+}
+
+object {
+  pointer-events: none;
 }

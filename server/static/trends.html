@@ -73,12 +73,12 @@
                     </div>
                 </div>
             </div> -->
-            <!-- TODO: add authors and URL -->
+            <!-- TODO: add authors -->
             <div class="card">
                 <div class="content">
                     <div class="header">
                         <p>{{.Name}}</p>
-                        <embed class="arrow" src="arrow.svg"/>
+                        <a class="arrow-link" href="{{.URL}}"><object class="arrow" data="arrow.svg" type="image/svg+xml"></object></a>
                     </div>
                     {{if .Description}}
                         <p>{{.Description}}</p>
