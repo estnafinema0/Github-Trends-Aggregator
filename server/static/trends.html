@@ -57,7 +57,7 @@
     <div class="ellipse-right"></div>
 
     <main class="container" id="outer">
-        <!-- <div class="back" id="inner"></div> -->
+        <div class="back" id="inner"></div>
         <div class="cards-list">
             {{range .Repos}}
             <!-- <div class="repo">
@@ -78,7 +78,7 @@
                 <div class="content">
                     <div class="header">
                         <p>{{.Name}}</p>
-                        <!-- TODO: arrow  -->
+                        <embed class="arrow" src="arrow.svg"/>
                     </div>
                     {{if .Description}}
                         <p>{{.Description}}</p>
