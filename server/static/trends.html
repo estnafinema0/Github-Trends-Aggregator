@@ -5,7 +5,7 @@
     <title>Trends</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
     <script>
         document.addEventListener("DOMContentLoaded", (e) => {
@@ -38,7 +38,7 @@
         </nav>
     </header>
 
-    <div class="side__menu__out">
+    <!-- <div class="side__menu__out">
         <div class="side__menu__in">
             <form action="javascript:sort_by()">
                 <div class="sorting"><label for="sortorder"></label></div>
@@ -52,19 +52,46 @@
                 <input type="submit" value="Choose sorting" class="input-a">
             </form>
         </div>
-    </div>
+    </div> -->
+    <div class="ellipse-left"></div>
+    <div class="ellipse-right"></div>
 
     <main class="container" id="outer">
-        <div class="back" id="inner"></div>
-        <div class="into">
+        <!-- <div class="back" id="inner"></div> -->
+        <div class="cards-list">
             {{range .Repos}}
-            <div class="repo">
+            <!-- <div class="repo">
                 <h3 class="author">{{.Name}}</h3>
                 <div class="field"><p>{{.Author}}</p></div>
                 <div class="field"><p>{{.URL}}</p></div>
                 <div class="field"><p>{{.Description}}</p></div>
                 <div class="field"><p>{{.Language}}</p></div>
                 <div class="field"><p>{{.Stars}}</p></div>
+                <div class="badge-exterior">
+                    <div class="badge-interior">
+                        <p>Stars: {{.Stars}}</p>
+                    </div>
+                </div>
+            </div> -->
+            <!-- TODO: add authors and URL -->
+            <div class="card">
+                <div class="content">
+                    <div class="header">
+                        <p>{{.Name}}</p>
+                        <!-- TODO: arrow  -->
+                    </div>
+                    {{if .Description}}
+                        <p>{{.Description}}</p>
+                    {{else}}
+                        <p><em>No description</em></p>
+                    {{end}}
+                </div>
+                <div class="tags-cloud">
+                    {{if .Language}}
+                        <div class="badge"><p>{{.Language}}</p></div>
+                    {{end}}
+                    <div class="badge"><p>Stars: {{.Stars}}</p></div>
+                </div>
             </div>
             {{end}}
         </div>
