@@ -15,8 +15,8 @@ ol {
 
 .container {
   padding-top: 11vh;
-  margin-left: 10vw;
-  margin-right: 10vw;
+  margin-left: max(10vw, calc((100vw - 1000px) / 2));
+  margin-right: max(10vw, calc((100vw - 1000px) / 2));
   /* overflow: hidden;
   min-height: 86.5vh; */
 }
@@ -346,6 +346,7 @@ h3.author::before {
   align-items: flex-start;
   padding: 1em 1.5em;
   gap: 1em;
+  max-width: 1200px;
 
   position: relative;
 
@@ -420,6 +421,19 @@ h3.author::before {
   flex-grow: 0;
 }
 
+.header p.author {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 400;
+  font-size: 1em;
+  line-height: 140%;
+  
+  color: #42454E;
+  
+  position: absolute;
+  right: 2em;
+}
+
 .tags-cloud {
   /* Auto layout */
   display: flex;
@@ -452,12 +466,11 @@ h3.author::before {
   flex-grow: 0;
 }
 
-/* TODO: px -> em */
 .ellipse-left {
   position: fixed;
   width: 1500px;
   height: 360px;
-  left: calc(50% - 1500px/2 - 634px);
+  left: calc(50% - 1500px/2 - 700px);
   bottom: -289px;
   
   background: radial-gradient(50% 50% at 50% 50%, #C0B4E0 0%, #3A0BD9 100%);
@@ -468,7 +481,7 @@ h3.author::before {
   position: fixed;
   width: 1500px;
   height: 360px;
-  left: calc(50% - 1500px/2 + 673px);
+  left: calc(50% - 1500px/2 + 700px);
   bottom: -289px;
 
   background: radial-gradient(50% 50% at 50% 50%, #C0B4E0 0%, #3A0BD9 100%);
