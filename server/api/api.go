@@ -5,7 +5,6 @@ import (
 	"net/http"
 	"strconv"
 	"text/template"
-	"fmt"
 	"strings"
 
 	"github.com/estnafinema0/Github-Trends-Aggregator/server/models"
@@ -31,7 +30,7 @@ func GetTrendsHandler(s *store.Store) http.HandlerFunc {
 			Urlescape func(string) string
 		}
 		data := Temporary{repos, language, EscapePlus}
-		fmt.Println(tmpl.Execute(rw, data))
+		tmpl.Execute(rw, data)
 
 		// rw.Header().Set("Content-Type", "application/json")
 		// json.NewEncoder(rw).Encode(repos)
