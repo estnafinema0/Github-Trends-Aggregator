@@ -76,7 +76,8 @@
                     {{if .Language}}
                         <div class="badge">
                             {{if $.SelectedLanguage}}
-                                <a class="selectedLanguage"><p>{{.Language}}</p></a>
+                                <p class="selectedLanguage">{{.Language}}</p>
+                                <a class="close-circle-link" href="./trends"><object class="close-circle" data="close-circle-outline.svg" type="image/svg+xml"></object></a>
                             {{else}}
                                 <a href="./trends?language={{.Language}}"><p>{{.Language}}</p></a>
                             {{end}}
