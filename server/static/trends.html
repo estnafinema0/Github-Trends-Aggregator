@@ -79,7 +79,7 @@
                                 <p class="selectedLanguage">{{.Language}}</p>
                                 <a class="close-circle-link" href="./trends"><object class="close-circle" data="close-circle-outline.svg" type="image/svg+xml"></object></a>
                             {{else}}
-                                <a href="./trends?language={{.Language}}"><p>{{.Language}}</p></a>
+                                <a href="./trends?language={{call $.Urlescape .Language}}"><p>{{.Language}}</p></a>
                             {{end}}
                         </div>
                     {{end}}

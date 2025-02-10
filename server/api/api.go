@@ -5,11 +5,17 @@ import (
 	"net/http"
 	"strconv"
 	"text/template"
+	"fmt"
+	"strings"
 
 	"github.com/estnafinema0/Github-Trends-Aggregator/server/models"
 	"github.com/estnafinema0/Github-Trends-Aggregator/server/store"
 	"github.com/gorilla/mux"
 )
+
+func EscapePlus(s string) string {
+	return strings.ReplaceAll(s, "+", "%2b")
+}
 
 // GetTrendsHandler returns handler for GET /trends
 func GetTrendsHandler(s *store.Store) http.HandlerFunc {
@@ -19,10 +25,14 @@ func GetTrendsHandler(s *store.Store) http.HandlerFunc {
 		language := r.URL.Query().Get("language")
 		sortBy := r.URL.Query().Get("sort_by")
 		repos := s.GetReposFiltered(language, sortBy)
-		type Temporary struct { Repos []models.Repository; SelectedLanguage string }
-		data := Temporary{repos, language}
-		tmpl.Execute(rw, data)
-		
+		type Temporary struct {
+			Repos []models.Repository
+			SelectedLanguage string
+			Urlescape func(string) string
+		}
+		data := Temporary{repos, language, EscapePlus}
+		fmt.Println(tmpl.Execute(rw, data))
+
 		// rw.Header().Set("Content-Type", "application/json")
 		// json.NewEncoder(rw).Encode(repos)
 	}
