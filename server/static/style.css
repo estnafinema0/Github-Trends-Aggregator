@@ -121,14 +121,27 @@ p, article {
 } */
 
 .form {
-  background: rgba(255,255,255,0.1);
+  /* background: rgba(255,255,255,0.1);
   box-shadow: 0 25px 45px rgba(0,0,0,0.1);
   backdrop-filter: blur(5px);
   -webkit-backdrop-filter: blur(5px);
   border-radius: 10px;
   border: 1px solid rgba(255,255,255,0.3);
   box-sizing: border-box;
-  margin-bottom: 40px;
+  margin-bottom: 40px; */
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  padding: 1em 1.5em;
+  gap: 1em;
+  max-width: 1200px;
+
+  position: relative;
+
+  background: #F0F0F0;
+  backdrop-filter: blur(.75em);
+  /* Note: backdrop-filter has minimal browser support */
+  border-radius: .5em;
 }
 
 .form div.header {
@@ -137,7 +150,21 @@ p, article {
 
 .label {
   position: relative;
-  color: #fff;
+  /* color: #fff; */
+  /* font-family: 'Inter';
+  font-style: normal; */
+  /* font-weight: 400; */
+  /* font-size: .75em; */
+  /* line-height: 0.9375em; */
+  /* identical to box height */
+  /* margin-block: 0.75em; */
+
+  color: #111113;
+
+  /* Inside auto layout */
+  /* flex: none;
+  order: 0;
+  flex-grow: 0; */
   letter-spacing: 1px;
   top: 20px;
   left: 10px;
@@ -150,14 +177,16 @@ p, article {
   position: absolute;
   left: 0;
   bottom: -10px;
-  width: 80px;
+  width: 120px;
   height: 4px;
-  background: #fff;
+  border-radius: 10px;
+  /* background: #111113; */
+  background: #8E69E5;
 }
 
 input {
   box-sizing: border-box;
-  color: #fff;
+  color: #111113;
   margin: 0;
   font-size: 20px;
 }
@@ -166,15 +195,22 @@ input {
   box-sizing: border-box;
   margin-left: 20px;
   margin-right: 20px;
-  background: rgba(255, 255, 255, 0.2);
+  background: #FAFAFA;
+  /* border: .0625em solid #E9EAF2; */
+  /* background: #F0F0F0; */
+  /* background: rgba(255, 255, 255, 0.2); */
   /* border: none;
   outline: none; */
   padding: 5px 10px;
   border-radius: 35px;
   margin-bottom: 10px;
-  border: 1px solid rgba(255, 255, 255, 0.5);
+  /* border: 1px solid rgba(255, 255, 255, 0.5);
   border-right: 1px solid rgba(255, 255, 255, 0.2);
   border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+  box-shadow: 0 5px 15px rgba(0,0,0,0.05); */
+  border: 1px solid #E9EAF2;
+  border-right: 1px solid #E9EAF2;
+  border-bottom: 1px solid #E9EAF2;
   box-shadow: 0 5px 15px rgba(0,0,0,0.05);
 }
 
@@ -513,6 +549,10 @@ h3.author::before {
   -o-transition: filter 0.1s ease-in-out;
   transition: filter 0.1s ease-in-out;
   filter: invert(37%) sepia(73%) saturate(1424%) hue-rotate(232deg) brightness(98%) contrast(83%);
+}
+
+.input:hover {
+  color: #8E69E5;
 }
 
 object {
