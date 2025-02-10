@@ -581,3 +581,11 @@ object {
 .selectedLanguage {
   filter: invert(37%) sepia(73%) saturate(1424%) hue-rotate(232deg) brightness(98%) contrast(83%);
 }
+
+#email {
+  width: 300px;
+}
+
+#email:hover {
+  color: #111113;
+}

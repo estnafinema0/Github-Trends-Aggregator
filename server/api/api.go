@@ -6,6 +6,7 @@ import (
 	"strconv"
 	"text/template"
 	"strings"
+	"fmt"
 
 	"github.com/estnafinema0/Github-Trends-Aggregator/server/models"
 	"github.com/estnafinema0/Github-Trends-Aggregator/server/store"
@@ -120,5 +121,24 @@ func GetStatsHandler(s *store.Store) http.HandlerFunc {
 		}
 		w.Header().Set("Content-Type", "application/json")
 		json.NewEncoder(w).Encode(stats)
+	}
+}
+
+func GetSubscribeHandler(s *store.Store) http.HandlerFunc {
+	tmpl := template.Must(template.ParseFiles("static/subscribe.html"))
+
+	return func(rw http.ResponseWriter, r *http.Request) {
+		tmpl.Execute(rw, nil)
+	}
+}
+
+
+func GetSubscribedHandler(s *store.Store) http.HandlerFunc {
+	tmpl := template.Must(template.ParseFiles("static/subscribed.html"))
+
+	return func(rw http.ResponseWriter, r *http.Request) {
+		email := r.URL.Query().Get("email")
+		fmt.Println(email)
+		tmpl.Execute(rw, nil)
 	}
 }

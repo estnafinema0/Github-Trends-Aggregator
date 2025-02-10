@@ -4,10 +4,10 @@
     <meta charset="UTF-8">
     <title></title>
     <script>
-        function fetch_trends() {
-            const url = "http://localhost:8080/trends?language=" + document.getElementById('language').value.replaceAll('+','\%2b')
-            window.location.href = url
-        }
+        // function subscribe() {
+        //     const email = document.getElementById('email').value
+        //     console.log(email)
+        // }
     </script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -25,17 +25,10 @@
     </header>
 
     <main class="container">
-        <form action="javascript:fetch_trends()" class="form">
-            <div class="card">
-                <div class="header"><label class="label" for="language">Choose your favorite programming language the list:</label></div>
-                <div><input class="input" list="languages" name="language" id="language"></div>
-                <datalist id="languages">
-                    {{range .Langs}}
-                        <option value="{{.Language}}"></option>
-                    {{end}}
-                </datalist>
-                <input type="submit" value="Choose trending language" class="input">
-            </div>
+        <form action="./subscribed" class="form">
+            <div class="header"><label class="label" for="email">Subscribe to notifications:</label></div>
+            <input type="email" name="email" id="email" class="input">
+            <input type="submit" value="Subscribe" class="input">
         </form>
     </main>
 </body>
