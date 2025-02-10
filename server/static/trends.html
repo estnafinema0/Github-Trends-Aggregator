@@ -8,12 +8,12 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
     <script>
-        document.addEventListener("DOMContentLoaded", (e) => {
+/*        document.addEventListener("DOMContentLoaded", (e) => {
             document.getElementById('inner').setAttribute(
                 'style',
                 `width: ${document.getElementById('outer').clientWidth}px;height:${document.getElementById('outer').clientHeight}px;position: absolute;`
             )
-        })
+        })*/
         function sort_by() {
             const curUrl = window.location.href
             const sortorder = /sortorder=[a-z_]*/
@@ -74,7 +74,13 @@
                 </div>
                 <div class="tags-cloud">
                     {{if .Language}}
-                        <div class="badge"><p>{{.Language}}</p></div>
+                        <div class="badge">
+                            {{if $.SelectedLanguage}}
+                                <a class="selectedLanguage"><p>{{.Language}}</p></a>
+                            {{else}}
+                                <a href="./trends?language={{.Language}}"><p>{{.Language}}</p></a>
+                            {{end}}
+                        </div>
                     {{end}}
                     <div class="badge"><p>Stars: {{.Stars}}</p></div>
                 </div>

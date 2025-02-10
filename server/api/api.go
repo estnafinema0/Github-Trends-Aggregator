@@ -19,8 +19,8 @@ func GetTrendsHandler(s *store.Store) http.HandlerFunc {
 		language := r.URL.Query().Get("language")
 		sortBy := r.URL.Query().Get("sort_by")
 		repos := s.GetReposFiltered(language, sortBy)
-		type Temporary struct { Repos []models.Repository }
-		data := Temporary{repos}
+		type Temporary struct { Repos []models.Repository; SelectedLanguage string }
+		data := Temporary{repos, language}
 		tmpl.Execute(rw, data)
 		
 		// rw.Header().Set("Content-Type", "application/json")

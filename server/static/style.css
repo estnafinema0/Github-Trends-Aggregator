@@ -322,7 +322,7 @@ h3.author::before {
 
 /* badge */
 
-.badge p {
+.badge p, .badge a p {
   font-family: 'Inter';
   font-style: normal;
   font-weight: 400;
@@ -507,4 +507,27 @@ h3.author::before {
 
 object {
   pointer-events: none;
+}
+
+.badge a, .badge a:visited {
+  text-decoration: none;
+  /* width: 2em;
+  height: 2em; */
+  -webkit-transition: filter 0.1s ease-in-out;
+  -moz-transition: filter 0.1s ease-in-out;
+  -o-transition: filter 0.1s ease-in-out;
+  transition: filter 0.1s ease-in-out;
+}
+
+.badge a:hover {
+  text-decoration: none;
+  -webkit-transition: filter 0.1s ease-in-out;
+  -moz-transition: filter 0.1s ease-in-out;
+  -o-transition: filter 0.1s ease-in-out;
+  transition: filter 0.1s ease-in-out;
+  filter: invert(37%) sepia(73%) saturate(1424%) hue-rotate(232deg) brightness(98%) contrast(83%);
+}
+
+.selectedLanguage {
+  filter: invert(37%) sepia(73%) saturate(1424%) hue-rotate(232deg) brightness(98%) contrast(83%);
 }
