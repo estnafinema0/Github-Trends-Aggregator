@@ -589,3 +589,7 @@ object {
 #email:hover {
   color: #111113;
 }
+
+p.bigger {
+  font-size: 1.3em;
+}
