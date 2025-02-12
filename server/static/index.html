@@ -5,7 +5,7 @@
     <title></title>
     <script>
         function fetch_trends() {
-            const url = "http://localhost:8080/trends?language=" + document.getElementById('language').value.replaceAll('+','\%2b')
+            const url = "http://localhost:8080/trends?language=" + document.getElementById('language').value.replaceAll('+','\%2b').replaceAll('#', '\%23')
             window.location.href = url
         }
     </script>

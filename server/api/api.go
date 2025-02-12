@@ -13,8 +13,8 @@ import (
 	"github.com/gorilla/mux"
 )
 
-func EscapePlus(s string) string {
-	return strings.ReplaceAll(s, "+", "%2b")
+func Escape(s string) string {
+	return strings.ReplaceAll(strings.ReplaceAll(s, "+", "%2b"), "#", "%23")
 }
 
 // GetTrendsHandler returns handler for GET /trends
@@ -30,7 +30,7 @@ func GetTrendsHandler(s *store.Store) http.HandlerFunc {
 			SelectedLanguage string
 			Urlescape func(string) string
 		}
-		data := Temporary{repos, language, EscapePlus}
+		data := Temporary{repos, language, Escape}
 		tmpl.Execute(rw, data)
 
 		// rw.Header().Set("Content-Type", "application/json")
