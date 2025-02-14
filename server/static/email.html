@@ -1,0 +1,4 @@
+{{range $i, $repo := .Repos}}
+    {{$i}}. <a href="{{.URL}}">{{.Name}}</a> by {{.Author}} {{if .Language}}written on {{.Language}}{{end}} with stars: {{.Stars}}.
+    <br>
+{{end}}

@@ -6,7 +6,6 @@ import (
 	"strconv"
 	"text/template"
 	"strings"
-	"fmt"
 
 	"github.com/estnafinema0/Github-Trends-Aggregator/server/models"
 	"github.com/estnafinema0/Github-Trends-Aggregator/server/store"
@@ -138,7 +137,7 @@ func GetSubscribedHandler(s *store.Store) http.HandlerFunc {
 
 	return func(rw http.ResponseWriter, r *http.Request) {
 		email := r.URL.Query().Get("email")
-		fmt.Println(email)
+		s.UpdateNotifs(email)
 		tmpl.Execute(rw, nil)
 	}
 }

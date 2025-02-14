@@ -13,19 +13,27 @@ import (
 	"github.com/estnafinema0/Github-Trends-Aggregator/server/scheduler"
 	"github.com/estnafinema0/Github-Trends-Aggregator/server/store"
 	"github.com/estnafinema0/Github-Trends-Aggregator/server/ws"
+	"github.com/estnafinema0/Github-Trends-Aggregator/server/config"
+	"github.com/estnafinema0/Github-Trends-Aggregator/server/email"
 	"github.com/gorilla/mux"
+	
 )
-
 func main() {
-	// Initialize In-memory store
-	store := store.NewStore()
-
 	// Initialize logger
 	l := log.New(os.Stdout, "server-api: ", log.LstdFlags)
+
+	if !config.LoadSecrets() {
+		l.Printf("Failed to load secrets")
+		return
+	}
+	// Initialize In-memory store
+	store := store.NewStore()
 
 	// Initialize WebSocket hub and run it in a goroutine
 	hub := ws.NewHub()
 	go hub.Run(l)
+
+	go email.StartEmail(store, l)
 
 	go scheduler.StartScheduler(store, hub, l)
 

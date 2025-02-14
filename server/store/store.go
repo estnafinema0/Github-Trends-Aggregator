@@ -11,17 +11,21 @@ import (
 // Store represents a structure for storing repositories
 type Store struct {
 	sync.RWMutex
-	repos    map[string]models.Repository
-	invRepos map[int]models.Repository
-	lastID   int
+	repos       map[string]models.Repository
+	NotifsList  map[int]string
+	invRepos    map[int]models.Repository
+	lastRepoID  int
+	lastNotifID int
 }
 
 // NewStore creates a new Store instance
 func NewStore() *Store {
 	return &Store{
-		repos:    make(map[string]models.Repository),
-		invRepos: make(map[int]models.Repository),
-		lastID:   1,
+		repos:       make(map[string]models.Repository),
+		NotifsList:  make(map[int]string),
+		invRepos:    make(map[int]models.Repository),
+		lastRepoID:  1,
+		lastNotifID: 1,
 	}
 }
 
@@ -41,6 +45,15 @@ func (s *Store) UpdateRepos(newRepos []models.Repository) {
 		s.invRepos[repo.SecondaryID] = repo
 	}
 }
+
+func (s *Store) UpdateNotifs(newNotif string) {
+	s.Lock()
+	defer s.Unlock()
+
+	s.lastNotifID += 1
+	s.NotifsList[s.lastNotifID] = newNotif
+}
+
 
 // GetRepos retrieves repositories by language
 func (s *Store) GetRepos(language string) []models.Repository {
