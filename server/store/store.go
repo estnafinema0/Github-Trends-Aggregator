@@ -6,6 +6,7 @@ import (
 	"time"
 
 	"github.com/estnafinema0/Github-Trends-Aggregator/server/models"
+	"github.com/estnafinema0/Github-Trends-Aggregator/server/config"
 )
 
 // Store represents a structure for storing repositories
@@ -16,6 +17,7 @@ type Store struct {
 	invRepos    map[int]models.Repository
 	lastRepoID  int
 	lastNotifID int
+	reposHist   []models.StarsTimestamp
 }
 
 // NewStore creates a new Store instance
@@ -37,12 +39,26 @@ func (s *Store) UpdateRepos(newRepos []models.Repository) {
 		delete(s.invRepos, k)
 	}
 
+	total := len(s.repos)
+	var sumStars int
+
 	for _, repo := range newRepos {
 		repo.UpdatedAt = time.Now()
 		repo.InterestScore = float64(repo.Stars + repo.Forks)
-
+		sumStars += repo.Stars
+		
 		s.repos[repo.ID] = repo
 		s.invRepos[repo.SecondaryID] = repo
+	}
+	avgStars := 0.0
+	if total > 0 {
+		avgStars = float64(sumStars) / float64(total)
+	}
+	if avgStars != 0.0 {
+		s.reposHist = append(s.reposHist, models.StarsTimestamp { time.Now().Format("2006-01-02T15:04:05-0700"), avgStars })
+		if len(s.reposHist) > config.HistoryLength {
+			s.reposHist = s.reposHist[1:]
+		}
 	}
 }
 
@@ -131,4 +147,14 @@ func (s *Store) GetAllRepos() []models.Repository {
 		repos = append(repos, repo)
 	}
 	return repos
+}
+
+func (s *Store) GetTopRatedStatistics() (models.Repository, []models.StarsTimestamp) {
+	var topRepo models.Repository
+	for _, repo := range s.repos {
+		if repo.InterestScore > topRepo.InterestScore {
+			topRepo = repo
+		}
+	}
+	return topRepo, s.reposHist
 }

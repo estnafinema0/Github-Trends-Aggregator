@@ -18,3 +18,8 @@ type Repository struct {
 	// Additional interest metric (sum of stars and forks)
 	InterestScore float64 `json:"interest_score"`
 }
+
+type StarsTimestamp struct {
+	UpdatedAt    string
+	AverageScore float64
+}

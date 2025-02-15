@@ -9,6 +9,7 @@ import (
 // FetchInterval is the interval at which trends are fetched
 const FetchInterval = time.Minute * 1
 const NotifyInterval = time.Hour * 24
+const HistoryLength = 100
 var NotifyEmail string
 var SMTPServer string
 var SMTPPort int

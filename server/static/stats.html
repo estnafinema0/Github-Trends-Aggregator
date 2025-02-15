@@ -1,0 +1,80 @@
+<!-- <!DOCTYPE html>
+<html>
+    <head>
+        <title>Graphing</title>
+        <link type="text/css" rel="Stylesheet" href="graph.css"  />
+        <script type="text/JavaScript" src="graph.js" ></script>
+    </head>
+
+    <body>
+        <canvas id="surface">Canvas not Supported</canvas>        
+    </body>
+
+</html> -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <script>
+        document.addEventListener("DOMContentLoaded", (e) => {
+            const canvas = document.getElementById("graph");
+            const context = canvas.getContext("2d");
+            const data = [
+                {{range $i, $repo := .History}}
+                {"updated": Number(Date.parse("{{.UpdatedAt}}")), "score": Number("{{.AverageScore}}")},
+                {{end}}
+            ];
+
+            const container = document.getElementsByClassName('container')[0];
+
+            const dataPoints = data.length;
+            
+            canvas.width = container.clientWidth;
+            canvas.height = window.innerHeight * 4/5;
+            let w = canvas.width * 0.01;
+            const dist = dataPoints ? (canvas.width - w * dataPoints) / dataPoints : Infinity;
+            if (dist < 5) { w = canvas.width / dataPoints - 5; }
+            const width = canvas.width * 0.98;
+            const height = canvas.height * 0.98;
+            
+            const maxScale = data.reduce((acc, next) => Math.max(acc, next.score), -Infinity);
+            const minScale = data.reduce((acc, next) => Math.min(acc, next.score), Infinity);
+            const range = maxScale - minScale;
+            context.strokeStyle = '#8E69E5'
+            context.fillStyle = '#8E69E5'
+
+            const [baseX, baseY] = range ? [0, height] : [0, height / 2]
+            for (let i = 0; i < dataPoints; i++) {
+                const percentage = range ? (data[i].score - minScale) / range : 0.5;
+                const [x, y] = [
+                    dataPoints == 1 ? width / 2 : width / (dataPoints - 1) * i,
+                    height - height * percentage
+                ];
+                context.lineTo(x + w / 2, y + w / 2);
+                context.fillRect(x, y, w, w);
+            }
+            context.stroke();
+        })
+    </script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body class="dark-theme montserrat-font">
+    <header class="header-box">
+        <nav class="main-pages">
+            <li><a href="/" id="main-nav">Main</a></li>
+            <li><a href="/trends" id="trends-nav">Trends</a></li>
+            <li><a href="/stats" id="stat-nav">Statistics</a></li>
+            <li><a href="/subscribe" id="subscribe-nav">Subscribe</a></li>
+        </nav>
+    </header>
+
+    <main class="container">
+        <canvas id="graph" height="100%" height="80vh">Canvas not Supported</canvas>
+    </main>
+</body>
+</html>

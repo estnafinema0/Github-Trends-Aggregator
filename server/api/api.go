@@ -31,9 +31,6 @@ func GetTrendsHandler(s *store.Store) http.HandlerFunc {
 		}
 		data := Temporary{repos, language, Escape}
 		tmpl.Execute(rw, data)
-
-		// rw.Header().Set("Content-Type", "application/json")
-		// json.NewEncoder(rw).Encode(repos)
 	}
 }
 
@@ -54,9 +51,6 @@ func GetIndexHandler(s *store.Store) http.HandlerFunc {
 		type Temporary struct { Langs []TemporaryString }
 		data := Temporary{langs}
 		tmpl.Execute(rw, data)
-		
-		// rw.Header().Set("Content-Type", "application/json")
-		// json.NewEncoder(rw).Encode(repos)
 	}
 }
 
@@ -86,40 +80,15 @@ type Stats struct {
 
 // GetStatsHandler returns aggregated statistics on repositories
 func GetStatsHandler(s *store.Store) http.HandlerFunc {
-	return func(w http.ResponseWriter, r *http.Request) {
+	tmpl := template.Must(template.ParseFiles("static/stats.html"))
+
+	return func(rw http.ResponseWriter, r *http.Request) {
 		s.RLock()
 		defer s.RUnlock()
-
-		repos := s.GetAllRepos()
-		total := len(repos)
-		var sumStars, sumForks int
-		reposPerLang := make(map[string]int)
-		var topRepo models.Repository
-		for _, repo := range repos {
-			sumStars += repo.Stars
-			sumForks += repo.Forks
-			if repo.Language != "" {
-				reposPerLang[repo.Language]++
-			}
-			if repo.InterestScore > topRepo.InterestScore {
-				topRepo = repo
-			}
-		}
-		avgStars := 0.0
-		avgForks := 0.0
-		if total > 0 {
-			avgStars = float64(sumStars) / float64(total)
-			avgForks = float64(sumForks) / float64(total)
-		}
-		stats := Stats{
-			TotalRepos:       total,
-			AverageStars:     avgStars,
-			AverageForks:     avgForks,
-			ReposPerLanguage: reposPerLang,
-			TopInterestRepo:  topRepo,
-		}
-		w.Header().Set("Content-Type", "application/json")
-		json.NewEncoder(w).Encode(stats)
+		repo, list := s.GetTopRatedStatistics()
+		type Temporary struct { Repo models.Repository; History []models.StarsTimestamp }
+		data := Temporary{ repo, list }
+		tmpl.Execute(rw, data)
 	}
 }
 
